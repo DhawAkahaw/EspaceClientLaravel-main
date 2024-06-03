@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DemandeMigration;
 use App\Models\DemandeTransfertLigne;
 use Illuminate\Http\Request;
 
 class DemandeTransfertLigneController extends Controller
 {
-    public function add(Request $request) {
+    public function add(Request $request, $clientId) {
         $fields = $request->validate([
             'adsl_num' => 'required|string',
             'new_num_tel' => 'required|string',
@@ -24,7 +25,7 @@ class DemandeTransfertLigneController extends Controller
         $fields['State'] = 'In progress';  
         $fields['created_at'] = now();
         $fields['Remarque'] = ' ';
-        
+        $fields['client_id'] = $clientId;
 
         try {
             // Create a new demande transfert ligne with the validated data
@@ -37,9 +38,14 @@ class DemandeTransfertLigneController extends Controller
             return response()->json(['message' => 'Failed to create DemandeTransfertLigne', 'error' => $e->getMessage()], 500);
         }
     }
-    public function history() {
-        $migration = DemandeTransfertLigne::all(['Ticket', 'Previous_Number' , 'New_Number' , 'created_at', 'State' , 'Remarque']);
-        return response()->json($migration);
-    }
 
+    public function history($clientId) {
+        $Line = DemandeTransfertLigne::where('client_id', $clientId)
+            ->select(['Ticket', 'Previous_Number', 'New_Number', 'created_at', 'State', 'Remarque'])
+            ->get();
+        return response()->json([
+            'status' => 200,
+            'Line' => $Line
+        ]);
+    }
 }

@@ -54,21 +54,21 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent']);
     Route::get('/factures/{clientId}', [FactureController::class, 'monf']);
     //Demand
-    Route::get('/Demands_history', [DemandController::class, 'History']);
+    Route::get('/Demands_history/{clientId}', [DemandController::class, 'History']);
     Route::post('/Submitdemand', [DemandController::class, 'add']);
     //Complain-reclamation
-    Route::get('/Reclamations_history', [ReclamationController::class, 'History']);
+    Route::get('/Reclamations_history/{clientId}', [ReclamationController::class, 'History']);
     Route::post('/Submitreclamation', [ReclamationController::class, 'add']);
     //Migration
     Route::post('/Submitmigration', [MigrationController::class, 'add']);
-    Route::get('/Migrations', [MigrationController::class, 'History']);
+    Route::get('/Migrations_history/{clientId}', [MigrationController::class, 'History']);
     //Line
     Route::post('/Submitline', [DemandeTransfertLigneController::class, 'add']);
-    Route::get('/LineHistory', [DemandeTransfertLigneController::class, 'History']);
+    Route::get('/LineHistory/{clientId}', [DemandeTransfertLigneController::class, 'History']);
     //Sugg
     Route::post('/Submitsuggestion', [Suggestion::class, 'add']);
-    Route::get('/SuggestionsHistory', [Suggestion::class, 'History']);
-    
+    Route::get('/SuggestionsHistory/{clientId}', [Suggestion::class, 'History']);
+
 
 
 });

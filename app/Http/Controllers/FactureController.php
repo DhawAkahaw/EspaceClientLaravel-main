@@ -24,7 +24,7 @@ class FactureController extends Controller
         $factures = Facture::where('client_id', $clientId)->get();
         return response()->json($factures);
     }
-    /
+    
 
     public function monf($id)
     {

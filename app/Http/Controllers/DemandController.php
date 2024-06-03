@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class DemandController extends Controller
 {
     
-    public function add(Request $request) {
+    public function add(Request $request, $clientId) {
         $fields = $request->validate([
             'Reference' => 'required|string',
             'Motif_demand' => 'required|string',
@@ -20,6 +20,7 @@ class DemandController extends Controller
         $fields['Motif'] = $fields['Motif_demand'];
         $fields['State'] = 'In progress';  
         $fields['created_at'] = now();
+        $fields['client_id'] = $clientId;
        
 
         try {
@@ -29,9 +30,15 @@ class DemandController extends Controller
             return response()->json(['message' => 'Failed to create demand', 'error' => $e->getMessage()], 500);
         }
     }
-    public function Hisory() {
-        $demands = Demande::all(['Ticket', 'Service' , 'Motif' , 'Created_at']);
-        return response()->json($demands);
-    }
 
+    public function history($clientId)
+    {
+        $demands = Demande::where('client_id', $clientId)
+            ->select(['Ticket', 'Service', 'Motif', 'created_at'])
+            ->get();
+        return response()->json([
+            'status' => 200,
+            'demands' => $demands
+        ]);
+    }
 }
