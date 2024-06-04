@@ -27,7 +27,7 @@ use App\Models\Suggestion;
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::get('/products/search/{name}', [ProductController::class, 'search']);
 Route::post('/add', [ClientController::class, 'add']);
-Route::post('/log', [ClientController::class, 'login']);
+
 Route::post('/products', [ProductController::class, 'store']);
 Route::put('/products/{id}', [ProductController::class, 'update']);
 oute::delete('/products/{id}', [ProductController::class, 'destroy']);
@@ -41,12 +41,15 @@ Route::resource('products', ProductController::class);
 Route::post('/addf', [FactureController::class, 'add']);
 Route::get('/sanctum/csrf-cookie', [ClientController::class, 'getCSRFCookie']);
 
-
-
+Route::post('/log', [ClientController::class, 'login']);
+Route::post('/Submitdemand/{id}', [DemandController::class, 'add']);
+Route::get('/Demands_history/{clientId}', [DemandController::class, 'history']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     //Client
+    Route::post('/add', [ClientController::class, 'add']);
+    
     Route::post('/logout', [ClientController::class, 'logout']);
     Route::post('/update_profile/{id}', [ClientController::class, 'update']);
     Route::get('/currentuser', [ClientController::class, 'getCurrentUser']);
@@ -54,8 +57,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent']);
     Route::get('/factures/{clientId}', [FactureController::class, 'monf']);
     //Demand
-    Route::get('/Demands_history/{clientId}', [DemandController::class, 'History']);
-    Route::post('/Submitdemand', [DemandController::class, 'add']);
+    
+    
     //Complain-reclamation
     Route::get('/Reclamations_history/{clientId}', [ReclamationController::class, 'History']);
     Route::post('/Submitreclamation', [ReclamationController::class, 'add']);

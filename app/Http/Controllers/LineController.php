@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DemandeMigration;
 use App\Models\DemandeTransfertLigne;
 use Illuminate\Http\Request;
 

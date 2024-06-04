@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use App\Models\Client;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class ClientController extends Controller
 {

@@ -6,22 +6,18 @@ use Illuminate\Http\Request;
 
 class DemandController extends Controller
 {
-    
     public function add(Request $request, $clientId) {
         $fields = $request->validate([
             'Reference' => 'required|string',
             'Motif_demand' => 'required|string',
-            'Message' => 'nullable|string', 
+            'Message' => 'nullable|string',
         ]);
 
-        $fields['Ticket'] = uniqid();  
+        $fields['Ticket'] = uniqid();
         $fields['Service'] = 'idk';
-        $fields['Desired_Offre'] = $fields['desired_offre'];
-        $fields['Motif'] = $fields['Motif_demand'];
-        $fields['State'] = 'In progress';  
-        $fields['created_at'] = now();
-        $fields['client_id'] = $clientId;
-       
+        $fields['State'] = 'In progress';
+        
+        $fields['client_id'] = $clientId;  // Add the client ID
 
         try {
             $demand = Demande::create($fields);
@@ -31,14 +27,15 @@ class DemandController extends Controller
         }
     }
 
-    public function history($clientId)
-    {
+   public function history($clientId) {
         $demands = Demande::where('client_id', $clientId)
-            ->select(['Ticket', 'Service', 'Motif', 'created_at' , 'State'])
+            ->select(['Ticket', 'Service', 'Motif_demand', 'created_at', 'State'])
             ->get();
         return response()->json([
             'status' => 200,
             'demands' => $demands
         ]);
     }
+    
+
 }
