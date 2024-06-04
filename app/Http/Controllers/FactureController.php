@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
@@ -36,8 +33,6 @@ class FactureController extends Controller
 
 
     public function login(Request $request) {
-        
-    
         
     
         $fac = Facture::where('code_Client', $request->code_Client)->first();

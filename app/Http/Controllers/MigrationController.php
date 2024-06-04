@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\DemandeMigration;
+use App\Models\Demande_Migration;
 use Illuminate\Http\Request;
 
 class MigrationController extends Controller
@@ -14,17 +14,14 @@ class MigrationController extends Controller
         ]);
 
         $fields['Ticket'] = uniqid();  
-        $fields['Current_offre'] = $fields['current_offre'];
-        $fields['Desired_Offre'] = $fields['desired_offre'];
-        $fields['GSM'] = $fields['gsm'];
-        $fields['Remarque'] = $fields['remarque'];
+        $fields['gsm'] = $fields['Contract'];
+        $fields['message'] = '  . ';
         $fields['State'] = 'In progress';  
-        $fields['created_at'] = now();
         $fields['client_id'] = $clientId;
 
         try {
             // Create a new migration with the validated data
-            $migration = DemandeMigration::create($fields);
+            $migration = Demande_Migration::create($fields);
         
             // Return a success response with the newly created migration
             return response()->json(['Migration' => $migration], 201);
@@ -34,13 +31,38 @@ class MigrationController extends Controller
         }
     }
 
-    public function history($clientId) {
-        $migration = DemandeMigration::where('client_id', $clientId)
-            ->select(['Ticket', 'Current_offre', 'Desired_Offre', 'gsm', 'created_at', 'State', 'Remarque'])
-            ->get();
+    public function history($id)
+    {
+        $migration = Demande_Migration::where('client_id', $id)->get();
         return response()->json([
             'status' => 200,
-            'migrations' => $migration
+            'migration' => $migration
+        ]);
+    }
+
+   
+        
+    public function login(Request $request) {
+        
+    
+        $mig = DemandeMigration::where('code_Client', $request->code_Client)->first();
+    
+        if(!$client) {
+            return response()->json([
+                'message' => 'Informations incorrectes'
+            ], 401);
+        }
+    
+        // Assuming $name is a valid field in your Client model
+        $clientinfo = $client;
+    
+        $token = $client->createToken('myapptoken')->plainTextToken;
+    
+        return response()->json([
+            'status' => 200,
+            'client' => $clientinfo, 
+            'token' => $token,
+            'message' => 'Connecté avec succès!',  
         ]);
     }
 }

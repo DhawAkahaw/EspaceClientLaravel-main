@@ -42,9 +42,10 @@ Route::post('/addf', [FactureController::class, 'add']);
 Route::get('/sanctum/csrf-cookie', [ClientController::class, 'getCSRFCookie']);
 
 Route::post('/log', [ClientController::class, 'login']);
-Route::post('/Submitdemand/{id}', [DemandController::class, 'add']);
-Route::get('/Demands_history/{clientId}', [DemandController::class, 'history']);
-
+Route::get('/Reclamations_history/{clientId}', [ReclamationController::class, 'history']);
+Route::post('/Submitreclamation/{id}', [ReclamationController::class, 'add']);
+Route::post('/Submitmigration/{id}', [MigrationController::class, 'add']);
+Route::get('/Migrations_history/{clientId}', [MigrationController::class, 'history']);
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     //Client
@@ -57,14 +58,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent']);
     Route::get('/factures/{clientId}', [FactureController::class, 'monf']);
     //Demand
-    
+    Route::post('/Submitdemand/{id}', [DemandController::class, 'add']);
+    Route::get('/Demands/{clientId}', [DemandController::class, 'history']);
     
     //Complain-reclamation
-    Route::get('/Reclamations_history/{clientId}', [ReclamationController::class, 'History']);
-    Route::post('/Submitreclamation', [ReclamationController::class, 'add']);
+    Route::get('/Reclamations_history/{clientId}', [ReclamationController::class, 'history']);
+    Route::post('/Submitreclamation/{id}', [ReclamationController::class, 'add']);
     //Migration
-    Route::post('/Submitmigration', [MigrationController::class, 'add']);
-    Route::get('/Migrations_history/{clientId}', [MigrationController::class, 'History']);
+   
     //Line
     Route::post('/Submitline', [DemandeTransfertLigneController::class, 'add']);
     Route::get('/LineHistory/{clientId}', [DemandeTransfertLigneController::class, 'History']);

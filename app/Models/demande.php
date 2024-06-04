@@ -17,7 +17,8 @@ class Demande extends Model
         'Service',     
         'Motif',     
         'State',
-        'client_id'
+        'client_id',
+        'created_@'
     ];
 
     public function client()

@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class DemandeMigration extends Model
+class Demande_Migration extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'contract',
+        'Contract',
         'current_offre',
         'desired_offre',
+        'Ticket',
+
         'gsm',
-        'state',
+        'State',
         'message',
         'client_id',
     ];

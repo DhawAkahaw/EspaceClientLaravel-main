@@ -19,7 +19,6 @@ class ReclamationController extends Controller
         ]);
 
         $fields['Ticket'] = uniqid();
-        $fields['Motif'] = $fields['Motif_rec'];
         $fields['State'] = 'in progress';
         $fields['client_id'] = $clientId;
 
@@ -31,13 +30,41 @@ class ReclamationController extends Controller
         }
     }
 
-    public function history($clientId) {
-        $reclamations = Reclamation::where('client_id', $clientId)
-            ->select(['Ticket', 'Motif', 'gsm', 'created_at', 'State'])
-            ->get();
+   
+   
+        
+    public function history($id)
+    {
+        $reclamation = Reclamation::where('client_id', $id)->get();
         return response()->json([
             'status' => 200,
-            'reclamation' => $reclamations
+            'reclamation' => $reclamation
+        ]);
+    }
+
+   
+        
+    public function login(Request $request) {
+        
+    
+        $rec = Reclamation::where('code_Client', $request->code_Client)->first();
+    
+        if(!$client) {
+            return response()->json([
+                'message' => 'Informations incorrectes'
+            ], 401);
+        }
+    
+        // Assuming $name is a valid field in your Client model
+        $clientinfo = $client;
+    
+        $token = $client->createToken('myapptoken')->plainTextToken;
+    
+        return response()->json([
+            'status' => 200,
+            'client' => $clientinfo, 
+            'token' => $token,
+            'message' => 'Connecté avec succès!',  
         ]);
     }
 }
