@@ -2,33 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DemandeTransfertLigne;
+use App\Models\Demande_Transfert_Ligne;
 use Illuminate\Http\Request;
 
-class DemandeTransfertLigneController extends Controller
+class LineController extends Controller
 {
     public function add(Request $request, $clientId) {
         $fields = $request->validate([
             'adsl_num' => 'required|string',
             'new_num_tel' => 'required|string',
-            'state_line_prop' => 'required|boolean',
+            'state_line_prop' => 'nullable|boolean',
             'nic' => 'nullable|string',
-            'current_address' => 'required|string',
-            'new_address' => 'required|string',
+            'rue'=>'required|string',
+            'gouvernorat' => 'required|string',
+            'delegation' => 'required|string',
+            'localite' => 'required|string',
+            'ville' => 'required|string',
+            'code_postal' => 'required|string',
+            'tel'=> 'required|string',
 
         ]);
+        
 
         $fields['Ticket'] = uniqid();  
-        $fields['Previous_Number'] = $fields['prev_num'];
-        $fields['New_Number'] = $fields['new_num_tel'];
+        $fields['prev_num'] = $fields['tel'];
+       
         $fields['State'] = 'In progress';  
-        $fields['created_at'] = now();
         $fields['Remarque'] = ' ';
         $fields['client_id'] = $clientId;
 
         try {
             // Create a new demande transfert ligne with the validated data
-            $demandeTransfertLigne = DemandeTransfertLigne::create($fields);
+            $demandeTransfertLigne = Demande_Transfert_Ligne::create($fields);
         
             // Return a success response with the newly created demande transfert ligne
             return response()->json(['DemandeTransfertLigne' => $demandeTransfertLigne], 201);
@@ -38,13 +43,39 @@ class DemandeTransfertLigneController extends Controller
         }
     }
 
-    public function history($clientId) {
-        $Line = DemandeTransfertLigne::where('client_id', $clientId)
-            ->select(['Ticket', 'Previous_Number', 'New_Number', 'created_at', 'State', 'Remarque'])
-            ->get();
+    public function history($id)
+    {
+        $line = Demande_Transfert_Ligne::where('client_id', $id)->get();
         return response()->json([
             'status' => 200,
-            'Line' => $Line
+            'line' => $line
         ]);
     }
+
+   
+        
+    public function login(Request $request) {
+        
+    
+        $demand = DemandeTransfertLigne::where('code_Client', $request->code_Client)->first();
+    
+        if(!$client) {
+            return response()->json([
+                'message' => 'Informations incorrectes'
+            ], 401);
+        }
+    
+        // Assuming $name is a valid field in your Client model
+        $clientinfo = $client;
+    
+        $token = $client->createToken('myapptoken')->plainTextToken;
+    
+        return response()->json([
+            'status' => 200,
+            'client' => $clientinfo, 
+            'token' => $token,
+            'message' => 'Connecté avec succès!',  
+        ]);
+    }
+
 }

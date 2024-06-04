@@ -6,6 +6,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DemandController;
 use App\Http\Controllers\DemandeTransfertLigneController;
 use App\Http\Controllers\FactureController;
+use App\Http\Controllers\LineController;
 use App\Http\Controllers\MigrationController;
 use App\Http\Controllers\ReclamationController;
 use Illuminate\Http\Request;
@@ -44,9 +45,9 @@ Route::get('/sanctum/csrf-cookie', [ClientController::class, 'getCSRFCookie']);
 Route::post('/log', [ClientController::class, 'login']);
 Route::get('/Reclamations_history/{clientId}', [ReclamationController::class, 'history']);
 Route::post('/Submitreclamation/{id}', [ReclamationController::class, 'add']);
-Route::post('/Submitmigration/{id}', [MigrationController::class, 'add']);
-Route::get('/Migrations_history/{clientId}', [MigrationController::class, 'history']);
-// Protected routes
+Route::post('/Submitline/{id}', [LineController::class, 'add']);
+Route::get('/LineHistory/{clientId}', [LineController::class, 'history']);
+// Protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     //Client
     Route::post('/add', [ClientController::class, 'add']);
@@ -65,10 +66,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/Reclamations_history/{clientId}', [ReclamationController::class, 'history']);
     Route::post('/Submitreclamation/{id}', [ReclamationController::class, 'add']);
     //Migration
-   
+    Route::post('/Submitmigration/{id}', [MigrationController::class, 'add']);
+    Route::get('/Migrations_history/{clientId}', [MigrationController::class, 'history']);
     //Line
-    Route::post('/Submitline', [DemandeTransfertLigneController::class, 'add']);
-    Route::get('/LineHistory/{clientId}', [DemandeTransfertLigneController::class, 'History']);
+   
     //Sugg
     Route::post('/Submitsuggestion', [Suggestion::class, 'add']);
     Route::get('/SuggestionsHistory/{clientId}', [Suggestion::class, 'History']);

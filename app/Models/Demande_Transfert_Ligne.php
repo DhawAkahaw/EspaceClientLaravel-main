@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class DemandeTransfertLigne extends Model
+class Demande_Transfert_Ligne extends Model
 {
     use HasFactory;
 
@@ -14,14 +14,18 @@ class DemandeTransfertLigne extends Model
         'new_num_tel',
         'state_line_prop',
         'nic',
-        'current_address',
-        'new_address',
         'Ticket',
-        'Previous_Number',
+        'prev_num',
         'State',
         'created_at',
         'Remarque',
         'client_id',
+        'rue',
+        'gouvernorat',
+        'delegation',
+        'localite',
+        'ville',
+        'code_postal',
     ];
 
 
