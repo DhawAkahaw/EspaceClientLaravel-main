@@ -34,7 +34,7 @@ class DemandController extends Controller
     public function history($clientId)
     {
         $demands = Demande::where('client_id', $clientId)
-            ->select(['Ticket', 'Service', 'Motif', 'created_at'])
+            ->select(['Ticket', 'Service', 'Motif', 'created_at' , 'State'])
             ->get();
         return response()->json([
             'status' => 200,
