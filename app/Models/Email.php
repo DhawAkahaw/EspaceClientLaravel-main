@@ -4,17 +4,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class Enquete_Satisfaction extends Model
+class Email extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'question1',
-        'question2',
-        'question3',
-        'question4',
-        'question5',
-        'client_id'
+        'mail',
+        'mail_rec',
+        'pass',
+        'client_id',
+        'State',
     ];
 
     public function client()

@@ -8,22 +8,16 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Contrat extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'Conract reference',
-        'Description',
-        'Starting date',
-        'State',
-        'Client_id',
+        'client_id',
+
+
+        'reference_contrat',
+        'designation',
+        'date_de_debut',
+        'etat',
+
+
     ];
 
-    public function client()
-    {
-        return $this->belongsTo(Client::class);
-    }
-
-    public function produits()
-    {
-        return $this->hasMany(Produit::class, 'cont_id');
-    }
 }

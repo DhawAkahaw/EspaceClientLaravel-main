@@ -16,7 +16,8 @@ class Demande_Transfert_Ligne extends Model
         'nic',
         'Ticket',
         'prev_num',
-        'State',
+        'NOM',
+        'CIN',/
         'created_at',
         'Remarque',
         'client_id',
@@ -26,6 +27,7 @@ class Demande_Transfert_Ligne extends Model
         'localite',
         'ville',
         'code_postal',
+        'State',
     ];
 
 

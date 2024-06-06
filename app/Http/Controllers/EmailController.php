@@ -2,54 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Demande_Transfert_Ligne;
+use App\Models\Email;
 use Illuminate\Http\Request;
 
-class LineController extends Controller
+class EmailController extends Controller
 {
     public function add(Request $request, $clientId) {
         $fields = $request->validate([
-            'adsl_num' => 'required|string',
-            'new_num_tel' => 'required|string',
-            'state_line_prop' => 'nullable|boolean',
-            'nic' => 'nullable|string',
-            'rue'=>'required|string',
-            'gouvernorat' => 'required|string',
-            'delegation' => 'required|string',
-            'localite' => 'required|string',
-            'ville' => 'required|string',
-            'code_postal' => 'required|string',
-            'tel'=> 'required|string',
-            'NOM'=>'required|string',
-            'CIN'=>'required|string',
+            'mail' => 'required|string',
+            'domaine' => 'required|string',
+            'mail_rec' => 'nullable|string',
+            'pass' => 'required|string',
         ]);
         
-
-        $fields['Ticket'] = uniqid();  
-        $fields['prev_num'] = $fields['tel'];
-       
-        $fields['State'] = 'In progress';  
-        $fields['Remarque'] = 'azeaze';
+        $fields['State'] = 'Actif';  
         $fields['client_id'] = $clientId;
 
         try {
             // Create a new demande transfert ligne with the validated data
-            $demandeTransfertLigne = Demande_Transfert_Ligne::create($fields);
+            $mail = Email::create($fields);
         
             // Return a success response with the newly created demande transfert ligne
-            return response()->json(['Line' => $demandeTransfertLigne ,'message' => 'Migration déposé avec success'], 201);
+            return response()->json(['mail' => $mail ,'message' => 'Migration déposé avec success'], 201);
         } catch (\Exception $e) {
             // Handle any exceptions that occur during creation
             return response()->json(['message' => 'Failed to create DemandeTransfertLigne', 'error' => $e->getMessage()], 500);
         }
     }
 
-    public function history($id)
+    public function maillist($id)
     {
-        $line = Demande_Transfert_Ligne::where('client_id', $id)->get();
+        $mail = Email::where('client_id', $id)->get();
         return response()->json([
             'status' => 200,
-            'line' => $line
+            'mail' => $mail
         ]);
     }
 
@@ -58,7 +44,7 @@ class LineController extends Controller
     public function login(Request $request) {
         
     
-        $demand = Demande_Transfert_Ligne::where('code_Client', $request->code_Client)->first();
+        $mail = Email::where('code_Client', $request->code_Client)->first();
     
         if(!$client) {
             return response()->json([
