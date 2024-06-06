@@ -36,7 +36,7 @@ class LineController extends Controller
             $demandeTransfertLigne = Demande_Transfert_Ligne::create($fields);
         
             // Return a success response with the newly created demande transfert ligne
-            return response()->json(['DemandeTransfertLigne' => $demandeTransfertLigne], 201);
+            return response()->json(['Line' => $demandeTransfertLigne ,'message' => 'Migration déposé avec success'], 201);
         } catch (\Exception $e) {
             // Handle any exceptions that occur during creation
             return response()->json(['message' => 'Failed to create DemandeTransfertLigne', 'error' => $e->getMessage()], 500);

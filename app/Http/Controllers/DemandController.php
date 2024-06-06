@@ -27,7 +27,7 @@ class DemandController extends Controller
 
         try {
             $demand = Demande::create($fields);
-            return response()->json(['demand' => $demand], 201);
+            return response()->json(['Migration' => $demand ,'message' => 'Migration déposé avec success'], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to create demand', 'error' => $e->getMessage()], 500);
         }

@@ -14,5 +14,10 @@ class Suggestion extends Model
         'Subject',
         'Message',
         'Ticket',
+        'client_id',
     ];
+    public function client()
+    {
+        return $this->belongsTo(client::class);
+    }
 }

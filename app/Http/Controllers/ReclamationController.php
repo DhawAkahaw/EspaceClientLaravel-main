@@ -24,7 +24,7 @@ class ReclamationController extends Controller
 
         try {
             $complain = Reclamation::create($fields);
-            return response()->json(['complain' => $complain], 201);
+            return response()->json(['Migration' => $complain ,'message' => 'Migration déposé avec success'], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to create complain', 'error' => $e->getMessage()], 500);
         }

@@ -19,6 +19,6 @@ class EnqueteSatisfactionController extends Controller
 
         $enqueteSatisfaction = EnqueteSatisfaction::create($validatedData);
 
-        return response()->json(['enqueteSatisfaction' => $enqueteSatisfaction], 201);
+        return response()->json(['Migration' => $enqueteSatisfaction ,'message' => 'Migration déposé avec success'], 201);
     }
 }

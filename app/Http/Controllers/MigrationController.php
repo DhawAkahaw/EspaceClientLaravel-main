@@ -24,7 +24,7 @@ class MigrationController extends Controller
             $migration = Demande_Migration::create($fields);
         
             // Return a success response with the newly created migration
-            return response()->json(['Migration' => $migration], 201);
+            return response()->json(['Migration' => $migration ,'message' => 'Migration déposé avec success'], 201);
         } catch (\Exception $e) {
             // Handle any exceptions that occur during creation
             return response()->json(['message' => 'Failed to create Migration', 'error' => $e->getMessage()], 500);
