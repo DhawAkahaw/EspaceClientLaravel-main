@@ -2,69 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Reclamation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Reclamation;
 
 class ReclamationController extends Controller
 {
-    public function add(Request $request, $clientId) {
-        $fields = $request->validate([
+    public function add(Request $request, $id)
+    {
+        $request->validate([
             'offre' => 'required|string',
             'Service' => 'required|string',
             'Category' => 'required|string',
             'Motif_rec' => 'required|string',
-            'Image' => 'nullable|string',
-            'gsm' => 'required|string',
-            'Message' => 'required|string',
+            'gsm' => '|string',
+            'Message' => 'nullable|string',
+            'Image' => 'nullable|max:2048',
         ]);
 
-        $fields['Ticket'] = uniqid();
-        $fields['State'] = 'in progress';
-        $fields['client_id'] = $clientId;
+        $reclamation = new Reclamation();
+        $reclamation->user_id = $id; // assuming you are using the user ID from the path parameter
+        $reclamation->offre = $request->input('offre');
+        $reclamation->Service = $request->input('Service');
+        $reclamation->Category = $request->input('Category');
+        $reclamation->Motif_rec = $request->input('Motif_rec');
+        $reclamation->gsm = $request->input('gsm');
+        $reclamation->Message = $request->input('Message');
+
+        if ($request->hasFile('Image')) {
+            $filePath = $request->file('Image')->store('public/reclamations');
+            $reclamation->Image = Storage::url($filePath);
+        }
+
+        $reclamation->save();
 
         try {
-            $complain = Reclamation::create($fields);
-            return response()->json(['Migration' => $complain ,'message' => 'Migration déposé avec success'], 201);
+            
+            return response()->json(['message' => 'Reclamation déposé avec success'], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to create complain', 'error' => $e->getMessage()], 500);
         }
-    }
-
-   
-   
-        
-    public function history($id)
-    {
-        $reclamation = Reclamation::where('client_id', $id)->get();
-        return response()->json([
-            'status' => 200,
-            'reclamation' => $reclamation
-        ]);
-    }
-
-   
-        
-    public function login(Request $request) {
-        
-    
-        $rec = Reclamation::where('code_Client', $request->code_Client)->first();
-    
-        if(!$client) {
-            return response()->json([
-                'message' => 'Informations incorrectes'
-            ], 401);
-        }
-    
-        // Assuming $name is a valid field in your Client model
-        $clientinfo = $client;
-    
-        $token = $client->createToken('myapptoken')->plainTextToken;
-    
-        return response()->json([
-            'status' => 200,
-            'client' => $clientinfo, 
-            'token' => $token,
-            'message' => 'Connecté avec succès!',  
-        ]);
     }
 }

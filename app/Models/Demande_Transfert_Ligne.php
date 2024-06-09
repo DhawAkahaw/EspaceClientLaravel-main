@@ -17,7 +17,7 @@ class Demande_Transfert_Ligne extends Model
         'Ticket',
         'prev_num',
         'NOM',
-        'CIN',/
+        'CIN',
         'created_at',
         'Remarque',
         'client_id',

@@ -18,6 +18,9 @@ class CreateDemandesTable extends Migration
             $table->string('Reference');
             $table->string('Motif_demand');
             $table->text('Message')->nullable();
+            $table->text('Ticket');
+            $table->text('Service');
+            $table->text('State');
             $table->timestamps();
 
             $table->unsignedBigInteger('client_id');

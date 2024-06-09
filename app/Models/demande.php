@@ -18,7 +18,6 @@ class Demande extends Model
         'Motif',     
         'State',
         'client_id',
-        'created_@'
     ];
 
     public function client()

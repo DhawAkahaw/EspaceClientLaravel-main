@@ -14,10 +14,9 @@ class Demande_Migration extends Model
         'current_offre',
         'desired_offre',
         'Ticket',
-
         'gsm',
         'State',
-        'message',
+        'remarque',
         'client_id',
     ];
 

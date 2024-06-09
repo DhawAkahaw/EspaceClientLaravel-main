@@ -18,8 +18,8 @@ class CreateEnqueteSatisfactionsTable extends Migration
             $table->string('question1');
             $table->string('question2');
             $table->string('question3');
-            $table->boolean('question4');
-            $table->boolean('question5');
+            $table->string('question4');
+            $table->string('question5');
             $table->timestamps();
         });
     }
