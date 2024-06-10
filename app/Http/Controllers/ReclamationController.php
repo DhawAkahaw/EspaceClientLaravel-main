@@ -21,7 +21,8 @@ class ReclamationController extends Controller
         ]);
 
         $reclamation = new Reclamation();
-        $reclamation->user_id = $id; // assuming you are using the user ID from the path parameter
+        $reclamation->Ticket = uniqid();
+        $reclamation->client_id = $id; // assuming you are using the user ID from the path parameter
         $reclamation->offre = $request->input('offre');
         $reclamation->Service = $request->input('Service');
         $reclamation->Category = $request->input('Category');
@@ -43,4 +44,15 @@ class ReclamationController extends Controller
             return response()->json(['message' => 'Failed to create complain', 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function history($id)
+    {
+        $rec = Reclamation::where('client_id', $id)->get();
+        return response()->json([
+            'status' => 200,
+            'reclamation' => $rec
+        ]);
+    }
+
+
 }

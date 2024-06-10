@@ -13,15 +13,15 @@ class LineController extends Controller
             'new_num_tel' => 'required|string',
             'state_line_prop' => 'nullable|boolean',
             'nic' => 'nullable|string',
-            'rue'=>'required|string',
-            'gouvernorat' => 'required|string',
-            'delegation' => 'required|string',
-            'localite' => 'required|string',
-            'ville' => 'required|string',
-            'code_postal' => 'required|string',
+            'rue'=>'nullable|string',
+            'gouvernorat' => 'nullable|string',
+            'delegation' => 'nullable|string',
+            
+            'ville' => 'nullable|string',
+            'code_postal' => 'nullable|string',
             'tel'=> 'required|string',
-            'NOM'=>'required|string',
-            'CIN'=>'required|string',
+            'NOM'=>'nullable|string',
+            'CIN'=>'nullable|string',
         ]);
         
 
@@ -55,28 +55,6 @@ class LineController extends Controller
 
    
         
-    public function login(Request $request) {
-        
-    
-        $demand = Demande_Transfert_Ligne::where('code_Client', $request->code_Client)->first();
-    
-        if(!$client) {
-            return response()->json([
-                'message' => 'Informations incorrectes'
-            ], 401);
-        }
-    
-        // Assuming $name is a valid field in your Client model
-        $clientinfo = $client;
-    
-        $token = $client->createToken('myapptoken')->plainTextToken;
-    
-        return response()->json([
-            'status' => 200,
-            'client' => $clientinfo, 
-            'token' => $token,
-            'message' => 'Connecté avec succès!',  
-        ]);
-    }
+   
 
 }

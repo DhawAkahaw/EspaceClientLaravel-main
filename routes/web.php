@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Route;
 use App\Models\produtcs;
 
@@ -19,6 +20,12 @@ use App\Models\produtcs;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('Reset',[EmailController::class,'sendEmail']);
+
+
+
+
 
 Auth::routes();
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\LineController;
 use App\Http\Controllers\MigrationController;
+use App\Http\Controllers\OptionsContractsController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ReclamationController;
 use App\Http\Controllers\SatisfactionController;
@@ -50,14 +51,20 @@ Route::post('/log', [ClientController::class, 'login']);
 
 Route::get('/produit', [ProduitController::class, 'look']);
 
-    Route::get('/maillist/{clientId}', [EmailController::class, 'maillist']);
-    Route::post('/addmail/{id}', [EmailController::class, 'add']);
-
+    
+    Route::post('/forgot-password', [ClientController::class, 'forgotpassword']);
+  
+    Route::post('/reset-forgottenpassword', [ClientController::class, 'resetforgottenpassword']);
 
 // Protected Routes
-Route::group(['middleware' => ['auth:sanctum']], function () {  
+    Route::group(['middleware' => ['auth:sanctum']], function () {  
     //Client
     Route::post('/add', [ClientController::class, 'add']);
+    Route::get('/contract/{clientId}', [ContractController::class, 'monc']);
+    Route::get('/option', [OptionsContractsController::class, 'look']);
+    Route::put('/contrat/{id}', [OptionsContractsController::class, 'buy_option']);
+    Route::post('/options', [OptionsContractsController::class, 'add']);
+
     
     Route::post('/logout', [ClientController::class, 'logout']);
     Route::post('/update_profile/{id}', [ClientController::class, 'update']);
@@ -85,6 +92,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/SubmitSS/{id}', [SatisfactionController::class, 'add']);
     Route::get('/contract/{clientId}', [ContractController::class, 'monc']);
     //mail
+    Route::get('/maillist/{clientId}', [EmailController::class, 'maillist']);
+    Route::post('/addmail/{id}', [EmailController::class, 'add']);
+
     
 });
 
